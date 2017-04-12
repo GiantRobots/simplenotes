@@ -69,7 +69,15 @@
 
     $('#notes').append($noteHtml);
 
-    let clipboard = new Clipboard('#copyButton');
+    let clipboard = new Clipboard('#copyButton',{
+      text: function(trigger){
+        let $checkedNotes = $('input:checkbox:checked');
+        
+        $checkedNotes.map((i, element) => {
+          return $(element).data('val');
+        }).toArray().join(' ');
+      }
+    });
 
     clipboard.on('success', function (e) {
       $('#copyButton').tooltip('show');
