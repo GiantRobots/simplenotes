@@ -73,7 +73,7 @@
       text: function(trigger){
         let $checkedNotes = $('input:checkbox:checked');
         
-        $checkedNotes.map((i, element) => {
+        return $checkedNotes.map((i, element) => {
           return $(element).data('val');
         }).toArray().join(' ');
       }
