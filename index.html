@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+        integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+</head>
+<body>
+<main style="width:600px; margin:50px auto;">
+  <div style="margin-left:-80px">
+    <h1 style="margin-bottom:20px;">Note Taker</h1>
+    <div id="notes"></div>
+
+    <div id="textWrapper" style="display:none; width:60%;">
+      <div id="copyText" class="card" style="padding:15px;margin: 15px 0;"></div>
+      <button type="button"
+              id="copyButton"
+              class="btn btn-primary float-sm-right"
+              data-clipboard-target="#copyText"
+              data-toggle="tooltip"
+              data-placement="top"
+              data-trigger="manual"
+              title="Copied Text!">Copy Text
+      </button>
+    </div>
+  </div>
+</main>
+<!-- jQuery first, then Tether, then Bootstrap JS. -->
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+        integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+        integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+        integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.6.0/clipboard.min.js"></script>
+
+<script type="text/javascript">
+  let makeHtml = function (note) {
+    let id = note.replace(/[\s]/i, '');
+    return $(`
+              <div>
+                <label for="${id}" class="custom-control custom-checkbox">
+                <input type='checkbox' id='${id}' data-val='${note}' class="custom-control-input">
+                  <span class="custom-control-indicator"></span>
+                  <span class="custom-control-description">${note}</span>
+                </label>
+              </div>
+              `);
+  };
+
+  $(document).ready(function () {
+
+    const notes = [
+      `Gave confirmation number`,
+      `Declined confirmation number`,
+      `Sent weblink`,
+      `Declined weblink`
+    ];
+
+    let $noteHtml = notes.map((note) => {
+      return makeHtml(note);
+    });
+
+    $('#notes').append($noteHtml);
+
+    let clipboard = new Clipboard('#copyButton');
+
+    clipboard.on('success', function (e) {
+      $('#copyButton').tooltip('show');
+      setTimeout(function () {
+        $('#copyButton').tooltip('hide');
+      }, 1500);
+      e.clearSelection();
+    });
+
+    $('body').on('click', 'input:checkbox', function () {
+
+      let $checkedNotes = $('input:checkbox:checked');
+
+      if ($checkedNotes.length > 0) {
+
+        let selectedNotes = $checkedNotes.map((i, element) => {
+          return $(element).data('val');
+        }).toArray();
+        console.log(selectedNotes);
+        $("#textWrapper").show();
+        $("#copyText").html(selectedNotes.join('<br />'));
+
+      }
+      else {
+        $("#textWrapper").hide();
+      }
+
+    });
+
+  })
+</script>
+</body>
+</html>
