@@ -89,7 +89,7 @@
         let selectedNotes = $checkedNotes.map((i, element) => {
           return $(element).data('val');
         }).toArray();
-        console.log(selectedNotes);
+        
         $("#textWrapper").show();
         $("#copyText").html(selectedNotes.join('<br />'));
 
