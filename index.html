@@ -45,13 +45,11 @@
   let makeHtml = function (note) {
     let id = note.replace(/[\s]/i, '');
     return $(`
-              <div>
                 <label for="${id}" class="custom-control custom-checkbox">
                 <input type='checkbox' id='${id}' data-val='${note}' class="custom-control-input">
                   <span class="custom-control-indicator"></span>
                   <span class="custom-control-description">${note}</span>
                 </label>
-              </div>
               `);
   };
 
