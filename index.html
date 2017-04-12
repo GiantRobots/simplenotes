@@ -45,11 +45,13 @@
   let makeHtml = function (note) {
     let id = note.replace(/[\s]/i, '');
     return $(`
+            <div>
                 <label for="${id}" class="custom-control custom-checkbox">
                 <input type='checkbox' id='${id}' data-val='${note}' class="custom-control-input">
                   <span class="custom-control-indicator"></span>
                   <span class="custom-control-description">${note}</span>
                 </label>
+            </div>
               `);
   };
 
@@ -85,11 +87,11 @@
       if ($checkedNotes.length > 0) {
 
         let selectedNotes = $checkedNotes.map((i, element) => {
-          return $(element).data('val');
+          return `<div>${$(element).data('val')}</div>`;
         }).toArray();
         
         $("#textWrapper").show();
-        $("#copyText").html(selectedNotes.join('<br />'));
+        $("#copyText").html(selectedNotes.join(''));
 
       }
       else {
